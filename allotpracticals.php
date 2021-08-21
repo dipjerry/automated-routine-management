@@ -68,7 +68,7 @@
                 <?php
                 include 'connection.php';
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM subjects WHERE course_type = 'LAB'"
                 );
                 $row_count = mysqli_num_rows($q);
@@ -92,7 +92,7 @@
                 include 'connection.php';
 
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM teachers "
                 );
                 $row_count = mysqli_num_rows($q);
@@ -114,7 +114,7 @@
                 include 'connection.php';
 
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM teachers "
                 );
                 $row_count = mysqli_num_rows($q);
@@ -136,7 +136,7 @@
                 include 'connection.php';
 
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM teachers "
                 );
                 $row_count = mysqli_num_rows($q);
@@ -169,7 +169,7 @@
     if (isset($_GET['name'])) {
         $id = $_GET['name'];
         $q = mysqli_query(
-            mysqli_connect("localhost", "root", "", "ttms"),
+            $con,
             "UPDATE subjects  SET isAlloted = '0' , allotedto = '',allotedto2 = '',allotedto3 = '' WHERE subject_code = '$id' "
         );
     }
@@ -240,7 +240,7 @@
             <?php
             include 'connection.php';
             $q = mysqli_query(
-                mysqli_connect("localhost", "root", "", "ttms"),
+                $con,
                 "SELECT * FROM subjects"
             );
 
@@ -253,17 +253,17 @@
                 $teacher_id2 = $row['allotedto2'];
                 $teacher_id3 = $row['allotedto3'];
                 $t1 = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT name FROM teachers WHERE faculty_number = '$teacher_id1'"
                 );
                 $trow1 = mysqli_fetch_assoc($t1);
                 $t2 = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT name FROM teachers WHERE faculty_number = '$teacher_id2'"
                 );
                 $trow2 = mysqli_fetch_assoc($t2);
                 $t3 = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT name FROM teachers WHERE faculty_number = '$teacher_id3'"
                 );
                 $trow3 = mysqli_fetch_assoc($t3);

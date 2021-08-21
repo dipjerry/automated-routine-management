@@ -3,7 +3,7 @@
 include 'connection.php';
 $id = $_GET['name'];
 $q = mysqli_query(
-    mysqli_connect("localhost", "root", "", "ttms"),
+    $con,
     "DELETE FROM classrooms WHERE name = '$id' "
 );
 if ($q) {

@@ -69,7 +69,7 @@
         $year = $_POST['course'];
         $class = $_POST['in_class'];
         $q = mysqli_query(
-            mysqli_connect("localhost", "root", "", "ttms"),
+            $con,
             "UPDATE classrooms SET status = '$year' WHERE name = '$class'"
         );
     }
@@ -91,7 +91,7 @@
                 <?php
                 include 'connection.php';
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM classrooms"
                 );
                 $row_count = mysqli_num_rows($q);
@@ -172,7 +172,7 @@
                 <?php
                 include 'connection.php';
                 $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
+                    $con,
                     "SELECT * FROM classrooms "
                 );
                 $courses = array('B.Tech 2nd Year', 'B.Tech 3rd Year', 'B.Tech 4rth Year');

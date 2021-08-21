@@ -13,7 +13,7 @@ if (isset($_POST['tobealloted']) && isset($_POST['toalloted2']) && isset($_POST[
     echo "<script type='text/javascript'>alert('$message');</script>";
     die();
 }
-$q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "UPDATE subjects SET isAlloted=1, allotedto='$teacher' , allotedto2='$teacher2' ,
+$q = mysqli_query($con, "UPDATE subjects SET isAlloted=1, allotedto='$teacher' , allotedto2='$teacher2' ,
  allotedto3 ='$teacher3' WHERE subject_code='$subject'");
 
 if ($q) {

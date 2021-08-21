@@ -25,7 +25,7 @@ class Teacher
 $subjectslots = array(); //subjects slots for all semesters
 $aliasslots = array(); //alias slots corresponding to each subject
 
-$query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT * FROM subjects ");
+$query = mysqli_query($con, "SELECT * FROM subjects ");
 $subjects[] = new Subject(); //to store theory subjects
 $practicals[] = new Subject(); //to store practical subjects
 
@@ -40,7 +40,7 @@ while ($row = mysqli_fetch_assoc($query)) {
     $temp->semester = $row['semester'];
     $temp->subjectteacher = $row['allotedto'];
     if (isset($temp->subjectteacher)) {
-        $teacheralias_query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"),
+        $teacheralias_query = mysqli_query($con,
             "SELECT * FROM teachers WHERE faculty_number='$temp->subjectteacher'");
         $row = mysqli_fetch_assoc($teacheralias_query);
         $temp->alias = $row['alias'];
@@ -49,7 +49,7 @@ while ($row = mysqli_fetch_assoc($query)) {
 }
 $subjects_count = $count;
 /**Fetching teachers and saving into teachers array*/
-$query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT * FROM teachers ");
+$query = mysqli_query($con, "SELECT * FROM teachers ");
 
 $teachers[] = new Teacher();
 $count = 0;
@@ -66,7 +66,7 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
     $i = $I % $subjects_count;
     $sem = $subjects[$i]->semester;
     $year = ($sem + 1) / 2;
-    $classroom_query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"),
+    $classroom_query = mysqli_query($con,
         "SELECT name FROM classrooms WHERE status='$year'");
     $row = mysqli_fetch_assoc($classroom_query);
     $classroom = $row['name'];
@@ -141,7 +141,7 @@ for ($i = 0; $i < $count; $i++) {
 }
 /**Fetching info of practical courses **/
 
-$query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT * FROM subjects ");
+$query = mysqli_query($con, "SELECT * FROM subjects ");
 $count = 0;
 while ($row = mysqli_fetch_assoc($query)) {
     if (!($row['course_type'] == 'LAB'))
@@ -152,15 +152,15 @@ while ($row = mysqli_fetch_assoc($query)) {
     $temp->subjectteacher = $row['allotedto'];
     $temp->subjectteacher2 = $row['allotedto2'];
     $temp->subjectteacher3 = $row['allotedto3'];
-    $teacheralias_query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"),
+    $teacheralias_query = mysqli_query($con,
         "SELECT * FROM teachers WHERE faculty_number='$temp->subjectteacher'");
     $row = mysqli_fetch_assoc($teacheralias_query);
     $temp->alias = $row['alias'];
-    $teacheralias_query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"),
+    $teacheralias_query = mysqli_query($con,
         "SELECT * FROM teachers WHERE faculty_number='$temp->subjectteacher2'");
     $row = mysqli_fetch_assoc($teacheralias_query);
     $temp->alias2 = $row['alias'];
-    $teacheralias_query = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"),
+    $teacheralias_query = mysqli_query($con,
         "SELECT * FROM teachers WHERE faculty_number='$temp->subjectteacher3'");
     $row = mysqli_fetch_assoc($teacheralias_query);
     $temp->alias3 = $row['alias'];
@@ -249,7 +249,7 @@ period4='" . $subjectslots[$i][$j][3] . "<br>" . $aliasslots[$i][$j][3][0] . "',
 period5='" . $subjectslots[$i][$j][4] . "<br>" . $aliasslots[$i][$j][4][0] . "',
 period6='" . $subjectslots[$i][$j][5] . "<br>" . $aliasslots[$i][$j][5][0] . ", " . $aliasslots[$i][$j][5][1] . ", " . $aliasslots[$i][$j][5][2] . "'
  WHERE day='" . $days[$j] . "' ";
-        $q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), $query);
+        $q = mysqli_query($con, $query);
     }
 
 }
@@ -264,11 +264,9 @@ period4='" . $teachers[$i]->days[1][$j][3] . "<br>" . $teachers[$i]->classroom_n
 period5='" . $teachers[$i]->days[1][$j][4] . "<br>" . $teachers[$i]->classroom_names[1][$j][4] . "',
 period6='" . $teachers[$i]->days[1][$j][5] . "'
  WHERE day='" . $days[$j] . "' ";
-        $q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), $query);
+        $q = mysqli_query($con, $query);
     }
 }
 
 /******redirect back to generate timetable **/
 header("Location:generatetimetable.php?success=true");
-
-?>

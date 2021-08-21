@@ -13,7 +13,7 @@ if (isset($_POST['UN']) && isset($_POST['PASS'])) {
 } else {
     die();
 }
-$q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT name FROM admin WHERE name = '$id' and password = '$password' ");
+$q = mysqli_query($con, "SELECT name FROM admin WHERE name = '$id' and password = '$password' ");
 if (mysqli_num_rows($q) == 1) {
     header("Location:addteachers.php");
 } else {
@@ -21,4 +21,3 @@ if (mysqli_num_rows($q) == 1) {
     echo "<script type='text/javascript'>alert('$message');</script>";
 
 }
-?>

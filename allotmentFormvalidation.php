@@ -11,7 +11,7 @@ if (isset($_POST['tobealloted'])) {
     echo "<script type='text/javascript'>alert('$message');</script>";
     die();
 }
-$q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "UPDATE subjects SET isAlloted=1, allotedto='$teacher' WHERE subject_code='$subject'");
+$q = mysqli_query($con, "UPDATE subjects SET isAlloted=1, allotedto='$teacher' WHERE subject_code='$subject'");
 
 if ($q) {
     $message = "Done.\\nTry again.";

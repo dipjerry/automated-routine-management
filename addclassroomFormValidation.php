@@ -9,7 +9,7 @@ if (isset($_POST['CN'])) {
     echo "<script type='text/javascript'>alert('$message');</script>";
     die();
 }
-$q = mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "INSERT INTO classrooms VALUES ('$name',0)");
+$q = mysqli_query($con, "INSERT INTO classrooms VALUES ('$name',0)");
 if ($q) {
     $message = "Classroom added.";
     echo "<script type='text/javascript'>alert('$message');</script>";

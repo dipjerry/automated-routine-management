@@ -1,6 +1,6 @@
 <?php
 
-include 'connection.php';
+include './class/connection.php';
 if (isset($_POST['tobealloted'])) {
     $subject = $_POST['tobealloted'];
     $teacher = $_POST['toalloted'];

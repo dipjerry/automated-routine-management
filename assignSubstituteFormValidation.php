@@ -1,8 +1,5 @@
 <?php
 
-//$days = array("monday","tuesday","wednesday","thursday","friday","saturday");
-//echo $_POST['CN'];
-//echo $_POST['SB'];
 include('sms.php');
 session_start();
 $whose = $_SESSION['shown_id'];
@@ -35,11 +32,7 @@ if ($row[$period] == "-<br>-" || $row[$period] == "-<br>" || $row[$period] == "-
 $query = mysqli_query($con, "SELECT * FROM $whose WHERE day = '$day'");
 $row = mysqli_fetch_assoc($query);
 $pieces = explode("<br>", $row[$period]);
-/*echo $pieces[0]; // piece1
-echo $pieces[1];
-echo $whose_name;
-echo $sub_name;
-echo "<br>";*/
+
 $string = "Hello " . $sub_name . ", You have to take class " . $pieces[0] . " of " . $whose_name . " in " . $pieces[1] . "\n\n-Sent from TimeTable Management System AMU";
 $_SESSION['s'] = $string;
 echo 'Sending SMS...';

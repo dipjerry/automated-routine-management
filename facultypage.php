@@ -1,5 +1,6 @@
 <?php
 session_start();
+include './class/connection.php';
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -119,12 +120,12 @@ session_start();
                         if (isset($_POST['select_semester'])) {
                             echo "COMPUTER ENGINEERING DEPARTMENT SEMESTER " . $_POST['select_semester'] . " ";
                             $year = (int)($_POST['select_semester'] / 2) + $_POST['select_semester'] % 2;
-                            $r = mysqli_fetch_assoc(mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT * from classrooms
+                            $r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * from classrooms
                         WHERE status = '$year'"));
                             echo " ( " . $r['name'], " ) ";
                         } else if (isset($_POST['select_teacher'])) {
                             $id = $_POST['select_teacher'];
-                            $r = mysqli_fetch_assoc(mysqli_query(mysqli_connect("localhost", "root", "", "ttms"), "SELECT * from teachers
+                            $r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * from teachers
                         WHERE faculty_number = '$id'"));
                             echo $r['name'];
                         } else if (isset($_SESSION['loggedin_name'])) {
@@ -155,11 +156,11 @@ session_start();
                         echo '</table>';
                     if (isset($_POST['select_semester']) || isset($_POST['select_teacher']) || isset($_SESSION['loggedin_id'])) {
                         $q = mysqli_query(
-                            mysqli_connect("localhost", "root", "", "ttms"),
+                            $con,
                             "SELECT * FROM" . $table
                         );
                         $qq = mysqli_query(
-                            mysqli_connect("localhost", "root", "", "ttms"),
+                            $con,
                             "SELECT * FROM subjects"
                         );
                         $days = array('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY');
@@ -172,7 +173,7 @@ session_start();
                                     if (isset($r['allotedto'])) {
                                         $id = $r['allotedto'];
                                         $qqq = mysqli_query(
-                                            mysqli_connect("localhost", "root", "", "ttms"),
+                                            $con,
                                             "SELECT * FROM teachers WHERE faculty_number = '$id'"
                                         );
                                         $rr = mysqli_fetch_assoc($qqq);
@@ -187,7 +188,7 @@ session_start();
                                     if (isset($r['allotedto2'])) {
                                         $id = $r['allotedto2'];
                                         $qqq = mysqli_query(
-                                            mysqli_connect("localhost", "root", "", "ttms"),
+                                            $con,
                                             "SELECT * FROM teachers WHERE faculty_number = '$id'"
                                         );
                                         $rr = mysqli_fetch_assoc($qqq);
@@ -196,7 +197,7 @@ session_start();
                                     if (isset($r['allotedto3'])) {
                                         $id = $r['allotedto3'];
                                         $qqq = mysqli_query(
-                                            mysqli_connect("localhost", "root", "", "ttms"),
+                                            $con,
                                             "SELECT * FROM teachers WHERE faculty_number = '$id'"
                                         );
                                         $rr = mysqli_fetch_assoc($qqq);
@@ -246,9 +247,8 @@ session_start();
     <script type="text/javascript">
         function gendf() {
             var doc = new jsPDF();
-
             doc.addHTML(document.getElementById('TT'), function() {
-                doc.save('<?php
+                doc.save(`<?php
                             if (isset($_POST["select_semester"])) {
                                 echo "ttms semester " . $_POST["select_semester"];
                             } else if (isset($_POST["select_teacher"])) {
@@ -256,7 +256,7 @@ session_start();
                             } else if (isset($_SESSION["loggedin_id"])) {
                                 echo "ttms " . $_SESSION["loggedin_id"];
                             }
-                            ?>' + '.pdf');
+                            ?>` + '.pdf');
                 alert("Downloaded!");
 
             });

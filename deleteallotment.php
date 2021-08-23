@@ -1,6 +1,6 @@
 <?php
 
-include 'connection.php';
+include('./class/connection.php');
 $id = $_GET['name'];
 $q = mysqli_query(
     $con,

@@ -1,5 +1,5 @@
 <?php
-include("./class/connection.php");
+include('./connection.php');
 /**Class to store subject details**/
 class Subject
 {
@@ -28,7 +28,6 @@ $aliasslots = array(); //alias slots corresponding to each subject
 $query = mysqli_query($con, "SELECT * FROM subjects ");
 $subjects[] = new Subject(); //to store theory subjects
 $practicals[] = new Subject(); //to store practical subjects
-
 $count = 0;
 
 /** fetching theory subjects and saving in subjects array*/
@@ -65,7 +64,6 @@ $r = -1;
 
 /** Genrating timetable for theory courses, with maximum class for each subject equal to 4 */
 for ($I = 0; $I < $subjects_count * 4; $I++) {
-    $tindex;
     $i = $I % $subjects_count;
     $sem = $subjects[$i]->semester;
     $year = ($sem + 1) / 2;
@@ -80,12 +78,9 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         for ($z = 0; $z < $count; $z++) {
             if ($teachers[$z]->id == $subjects[$i]->subjectteacher) {
                 $tindex = $z;
-                echo "ola" + $tindex;
                 break;
             }
         }
-        echo $tindex;
-
         if ($j % 6 == 0)
             $r++;
         if (isset($subjectslots[$sem][$r % 6][$j % 5])) {

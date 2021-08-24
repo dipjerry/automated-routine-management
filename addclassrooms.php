@@ -75,16 +75,21 @@ include('./views/includes/nav.php');
             background-color: #dddddd;
         }
     </style>
-    <table id=classroomstable>
-        <caption><strong>ADDED CLASSROOMS</strong></caption>
-        <tr>
-            <th width="100">Name</th>
-            <th width="60">Action</th>
-        </tr>
-        <tbody id="table-data">
-            <!-- classroom information will be fetched here by asynchronous ajax request -->
-        </tbody>
-    </table>
+    <div class="table-responsive">
+
+        <table id=classroomstable>
+            <caption><strong>ADDED CLASSROOMS</strong></caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th width="100">Name</th>
+                    <th width="60">Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                <!-- classroom information will be fetched here by asynchronous ajax request -->
+            </tbody>
+        </table>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {

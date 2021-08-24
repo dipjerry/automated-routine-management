@@ -150,7 +150,7 @@ require("./class/loginFunction.php");
                 <h2><strong>Project done by</strong></h2>
                 <hr />
                 <div>
-                    <h4>Kumarjit Jha [NAL/18/C0/025]</h4>
+                    <h4>Kumarjit Jha [NAL/18/C0/026]</h4>
                     <h4>Abhijeet Kalita [NAL/18/C0/023]</h4>
                     <h4>Nayan kalpa Talukdar [NAL/18/C0/057]</h4>
                 </div>

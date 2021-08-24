@@ -134,15 +134,6 @@ include("./class/connection.php")
             }
             ?>
 </div>
-<!-- <script type="text/javascript">
-    function gendf() {
-        var doc = new jsPDF();
-        doc.addHTML(document.getElementById('TT'), function() {
-            doc.save('<?php echo "ttms semester " . $_POST["select_semester"] ?>' + '.pdf');
-            alert("Downloaded!");
-        });
-    }
-</script> -->
 <script type="text/javascript">
     function gendf() {
         var doc = new jsPDF();

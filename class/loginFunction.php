@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST['admin_login'])) {
     if (isset($_POST['UN']) && isset($_POST['PASS'])) {
         $id = $_POST['UN'];

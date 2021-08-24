@@ -73,7 +73,14 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         $con,
         "SELECT name FROM classrooms WHERE status='$year'"
     );
+    echo ($tindex);
+    echo ("\n");
+    echo ($i);
+    echo ("\n");
+    echo ($sem);
+    echo ("\n");
     echo ($year);
+    echo ("\n");
     $row = mysqli_fetch_assoc($classroom_query);
     $classroom = $row['name'];
     for ($j = 0; $j < 30; $j++) {

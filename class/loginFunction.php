@@ -1,5 +1,5 @@
 <?php
-echo ("started");
+
 if (isset($_POST['admin_login'])) {
     if (isset($_POST['UN']) && isset($_POST['PASS'])) {
         $id = $_POST['UN'];
@@ -17,7 +17,7 @@ if (isset($_POST['admin_login'])) {
 }
 
 if (isset($_POST['faculty_login'])) {
-    echo ("started");
+
     session_start();
     if (isset($_POST['FN'])) {
         $fac = $_POST['FN'];

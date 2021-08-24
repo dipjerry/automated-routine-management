@@ -214,50 +214,56 @@ if (isset($_GET['name'])) {
         <th width="300">Teacher's Name</th>
         <th width="40">Action</th>
     </tr>
-    <tbody>
-        <?php
-        $q = mysqli_query(
-            $con,
-            "SELECT * FROM subjects"
-        );
+    <tbody id="table-data">
 
-        while ($row = mysqli_fetch_assoc($q)) {
-            if ($row['isAlloted'] == 0)
-                continue;
-            if (!($row['course_type'] == "LAB"))
-                continue;
-            $teacher_id1 = $row['allotedto'];
-            $teacher_id2 = $row['allotedto2'];
-            $teacher_id3 = $row['allotedto3'];
-            $t1 = mysqli_query(
-                $con,
-                "SELECT name FROM teachers WHERE faculty_number = '$teacher_id1'"
-            );
-            $trow1 = mysqli_fetch_assoc($t1);
-            $t2 = mysqli_query(
-                $con,
-                "SELECT name FROM teachers WHERE faculty_number = '$teacher_id2'"
-            );
-            $trow2 = mysqli_fetch_assoc($t2);
-            $t3 = mysqli_query(
-                $con,
-                "SELECT name FROM teachers WHERE faculty_number = '$teacher_id3'"
-            );
-            $trow3 = mysqli_fetch_assoc($t3);
-            echo "<tr><td>{$row['subject_code']}</td>
-                    <td>{$row['subject_name']}</td>
-                    <td>{$row['allotedto']}</td>
-                    <td>{$trow1['name']}</td>
-                    <td>{$row['allotedto2']}</td>
-                    <td>{$trow2['name']}</td>
-                    <td>{$row['allotedto3']}</td>
-                    <td>{$trow3['name']}</td>
-                   <td>
-                    <button>Delete</button></td>
-                    </tr>\n";
-        }
-        echo "<script>deleteHandlersForPractical();</script>";
-        ?>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Load Table Records
+        function loadTable() {
+            $.ajax({
+                url: "./class/allotmentFunction.php",
+                type: "POST",
+                data: {
+                    method: 'load_practical',
+                },
+                success: function(data) {
+                    $("#table-data").html(data);
+                }
+            });
+        }
+        loadTable();
+        $(document).on("click", ".delete-btn", function() {
+            if (confirm("Do you really want to delete this record ?")) {
+                var subId = $(this).data("cid");
+                var element = this;
+                alert("hello");
+                $.ajax({
+                    url: "./class/allotmentFunction.php",
+                    type: "POST",
+                    data: {
+                        method: 'remove_practical',
+                        id: subId,
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            $(element).closest("tr").fadeOut();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                            $("#success-message").html("Can't Delete Record.").slideDown();
+                            $("#error-message").slideUp();
+                            loadTable();
+                            alert("ok");
+                        } else {
+                            loadTable();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 <?php include('./views/includes/footer.php'); ?>

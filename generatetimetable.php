@@ -331,9 +331,6 @@ include './views/includes/header.php';
                     }
 
                     echo '</table>';
-                    $sign = "GENERATED VIA TIMETABLE MANAGEMENT SYSTEM, COMPUTER ENGINEERING DEPARTMENT, AMU.";
-                    echo "<div style='margin-left: 10px' align='center'>" . "<br>" . $str . "<br></div>" .
-                        "<div style='margin-left: 10px' align='center'>" . "<strong>" . $sign . "<br></strong></div>";
                 }
                 if (isset($_POST['select_teacher'])) {
                     echo "<script>Substitute();</script>";

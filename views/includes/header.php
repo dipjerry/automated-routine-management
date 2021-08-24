@@ -7,18 +7,14 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>TimeTable Management System</title>
-    <!-- BOOTSTRAP CORE STYLE CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME CSS -->
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- FLEXSLIDER CSS -->
     <link href="assets/css/flexslider.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE CSS -->
     <link href="assets/css/style.css" rel="stylesheet" />
-    <!-- Google	Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+    <script type="text/javascript" src="assets/jsPDF/dist/jspdf.min.js"></script>
+    <script type="text/javascript" src="assets/js/html2canvas.js"></script>
 </head>
 
 <body>

@@ -73,8 +73,6 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         $con,
         "SELECT name FROM classrooms WHERE status='$year'"
     );
-    echo ($tindex);
-    echo ("\n");
     echo ($i);
     echo ("\n");
     echo ($sem);

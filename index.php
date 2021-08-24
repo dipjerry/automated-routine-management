@@ -33,29 +33,8 @@ require("./class/loginFunction.php");
             </div>
         </div>
     </div>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators" style="margin-bottom: 160px">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-        </ol>
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="assets/img/lab1.jpg" alt="Chania">
-            </div>
-            <div class="item">
-                <img src="assets/img/lab2.jpg" alt="Chania">
-            </div>
-            <div class="item">
-                <img src="assets/img/lab1.jpg" alt="Flower">
-            </div>
-            <div class="item">
-                <img src="assets/img/lab2.jpg" alt="Flower">
-            </div>
-        </div>
+    <div class="container-fluid" style="margin-top:10%">
+        <img src="assets/img/building.jpg" class="img-fluid" alt="Building" style="width:100% ; height:350px ; margin-top:9% ">
     </div>
     <script type="text/javascript">
         function genpdf() {
@@ -168,23 +147,12 @@ require("./class/loginFunction.php");
     <div class="container">
         <div class="row set-row-pad">
             <div class="col-lg-4 col-md-4 col-sm-4   col-lg-offset-1 col-md-offset-1 col-sm-offset-1 " data-scroll-reveal="enter from the bottom after 0.4s">
-                <h2><strong>Our Location </strong></h2>
+                <h2><strong>Project done by</strong></h2>
                 <hr />
                 <div>
-                    <h4>Find Us Anywhere,
-                    </h4>
-                    <h4> Said Anywhere</h4>
-                    <h4><strong>Call:</strong> 9837773333 </h4>
-                    <h4><strong>Email: </strong>meow@meow.com</h4>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4   col-lg-offset-1 col-md-offset-1 col-sm-offset-1" data-scroll-reveal="enter from the bottom after 0.4s">
-                <h2><strong>Social Conectivity </strong></h2>
-                <hr />
-                <div>
-                    <a href="#"> <img src="assets/img/Social/facebook.png" alt="" /> </a>
-                    <a href="#"> <img src="assets/img/Social/google-plus.png" alt="" /></a>
-                    <a href="#"> <img src="assets/img/Social/twitter.png" alt="" /></a>
+                    <h4>Kumarjit Jha [NAL/18/C0/025]</h4>
+                    <h4>Abhijeet Kalita [NAL/18/C0/023]</h4>
+                    <h4>Nayan kalpa Talukdar [NAL/18/C0/057]</h4>
                 </div>
             </div>
         </div>

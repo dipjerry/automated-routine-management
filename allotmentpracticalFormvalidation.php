@@ -6,8 +6,6 @@ if (isset($_POST['tobealloted']) && isset($_POST['toalloted2']) && isset($_POST[
     $teacher = $_POST['toalloted'];
     $teacher2 = $_POST['toalloted2'];
     $teacher3 = $_POST['toalloted3'];
-    //  $message = "nTry again.";
-    // echo "<script type='text/javascript'>alert('$message');</script>";
 } else {
     $message = "dead.";
     echo "<script type='text/javascript'>alert('$message');</script>";
@@ -24,6 +22,4 @@ if ($q) {
     $message = "Username and/or Password incorrect.\\nTry again.";
     $message = $subject;
     echo "<script type='text/javascript'>alert('$message');</script>";
-    // header("Location:index.html");
-
 }

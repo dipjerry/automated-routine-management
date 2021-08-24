@@ -16,7 +16,6 @@ include('./class/connection.php');
             echo '<script>alert("Select a file first! ");</script>';
         } else {
             $file = $_FILES['file']['tmp_name'];
-            // $handle = fopen($file, 'r', ';');
             $row = 1;
             if (($handle = fopen($file, "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
@@ -29,7 +28,6 @@ include('./class/connection.php');
                     if ($code == "" || $code == "Subject Code") {
                         continue;
                     }
-                    // echo ($code . ' ' . $name . ' ' . $type . ' ' . $semester . ' ' . $department);
                     $q = mysqli_query(
                         $con,
                         "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
@@ -38,23 +36,6 @@ include('./class/connection.php');
 
                 fclose($handle);
             }
-            // while (!feof($handle)) {
-            //     $filesop = fgetcsv($handle, 1000);
-            //     echo ($filesop[0]);
-            //     $code = $filesop[0];
-            //     $name = $filesop[1];
-            //     $type = $filesop[2];
-            //     $semester = $filesop[3];
-            //     $department = $filesop[4];
-            //     if ($code == "" || $code == "Subject Code") {
-            //         continue;
-            //     }
-            //     // echo ($code . ' ' . $name . ' ' . $type . ' ' . $semester . ' ' . $department);
-            //     // $q = mysqli_query(
-            //     //     $con,
-            //     //     "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
-            //     // );
-            // }
         }
     }
     ?>

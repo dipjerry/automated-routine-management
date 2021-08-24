@@ -105,34 +105,56 @@ include('./class/connection.php');
         <th width="330">Teacher's Name</th>
         <th width="40">Action</th>
     </tr>
-    <tbody>
-        <?php
-        $q = mysqli_query(
-            $con,
-            "SELECT * FROM subjects  ORDER BY semester ASC"
-        );
-        while ($row = mysqli_fetch_assoc($q)) {
-            if ($row['isAlloted'] == 0 || $row['course_type'] == 'LAB')
-                continue;
-            $teacher_id = $row['allotedto'];
-            $t = mysqli_query(
-                $con,
-                "SELECT name FROM teachers WHERE faculty_number = '$teacher_id'"
-            );
-            $trow = mysqli_fetch_assoc($t);
-            echo "<tr>
-                    <td>{$row['semester']}</td>
-                    <td>{$row['subject_code']}</td>
-                    <td>{$row['subject_name']}</td>
-                    <td>{$row['department']}</td>
-                    <td>{$row['allotedto']}</td>
-                    <td>{$trow['name']}</td>
-                   <td>
-                    <button>Delete</button></td>
-                    </tr>\n";
-        }
-        echo "<script>deleteHandlers();</script>";
-        ?>
+    <tbody id="table-data">
+
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Load Table Records
+        function loadTable() {
+            $.ajax({
+                url: "./class/allotmentFunction.php",
+                type: "POST",
+                data: {
+                    method: 'load_theory',
+                },
+                success: function(data) {
+                    $("#table-data").html(data);
+                }
+            });
+        }
+        loadTable();
+        $(document).on("click", ".delete-btn", function() {
+            if (confirm("Do you really want to delete this record ?")) {
+                var subId = $(this).data("cid");
+                var element = this;
+                alert("hello");
+                $.ajax({
+                    url: "./class/allotmentFunction.php",
+                    type: "POST",
+                    data: {
+                        method: 'remove_theory',
+                        id: subId,
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            $(element).closest("tr").fadeOut();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                            $("#success-message").html("Can't Delete Record.").slideDown();
+                            $("#error-message").slideUp();
+                            loadTable();
+                            alert("ok");
+                        } else {
+                            loadTable();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 <?php include('./views/includes/footer.php'); ?>

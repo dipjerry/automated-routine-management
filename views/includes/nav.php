@@ -10,7 +10,7 @@
         </div>
         <div class="navbar-collapse collapse move-me">
             <ul class="nav navbar-nav navbar-left">
-                <li><a href="addteachers.php">ADD TEACHERS</a></li>
+                <li><a href="addteachers.php">ADD TEACHERS </a></li>
                 <li><a href="addsubjects.php">ADD SUBJECTS</a></li>
                 <li><a href="addclassrooms.php">ADD CLASSROOMS</a></li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">ALLOTMENT
@@ -31,7 +31,8 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.php">LOGOUT</a></li>
+                <li><a href="index.php">LOGOUT <i class="fa fa-sign-out"></i></a></li>
+                <li><a href="index.php">Reset Allotment</a></li>
             </ul>
 
         </div>

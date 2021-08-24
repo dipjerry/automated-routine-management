@@ -30,25 +30,24 @@ include './class/connection.php';
             echo '<script>alert("Select a file first! ");</script>';
         } else {
             $file = $_FILES['file']['tmp_name'];
-            $handle = fopen($file, 'r');
-            $headings = true;
-            while (!feof($handle)) {
-                $filesop = fgetcsv($handle, 1000);
-                $facno = $filesop[0];
-                $name = $filesop[1];
-                $alias = $filesop[2];
-                $designation = $filesop[3];
-                $contact = $filesop[4];
-                $email = $filesop[5];
-                if ($facno == "" || $facno == "Faculty No.") {
-                    continue;
-                }
-                $q = mysqli_query(
-                    mysqli_connect("localhost", "root", "", "ttms"),
-                    "INSERT INTO teachers VALUES ('$facno','$name','$alias','$designation','$contact','$email')"
-                );
-                if ($q) {
-                    $sql = "CREATE TABLE " . $facno . " (
+            $row = 1;
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $facno = $data[0];
+                    $name = $data[1];
+                    $alias = $data[2];
+                    $designation = $data[3];
+                    $contact = $data[4];
+                    $email = $data[5];
+                    if ($facno == "" || $facno == "Faculty No.") {
+                        continue;
+                    }
+                    $q = mysqli_query(
+                        $con,
+                        "INSERT INTO teachers VALUES ('$facno','$name','$alias','$designation','$contact','$email')"
+                    );
+                    if ($q) {
+                        $sql = "CREATE TABLE " . $facno . " (
                 day VARCHAR(10) PRIMARY KEY, 
                 period1 VARCHAR(30),
                 period2 VARCHAR(30),
@@ -57,14 +56,17 @@ include './class/connection.php';
                 period5 VARCHAR(30),
                 period6 VARCHAR(30)
                 )";
-                    mysqli_query($con, $sql);
-                    $days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-                    for ($i = 0; $i < 6; $i++) {
-                        $day = $days[$i];
-                        $sql = "INSERT into " . $facno . " VALUES('$day','','','','','','')";
                         mysqli_query($con, $sql);
+                        $days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
+                        for ($i = 0; $i < 6; $i++) {
+                            $day = $days[$i];
+                            $sql = "INSERT into " . $facno . " VALUES('$day','','','','','','')";
+                            mysqli_query($con, $sql);
+                        }
                     }
                 }
+
+                fclose($handle);
             }
         }
     }
@@ -162,8 +164,9 @@ include './class/connection.php';
             margin-top: 10px;
             font-family: arial, sans-serif;
             border-collapse: collapse;
-            margin-left: 30px;
-            width: 90%;
+            /* margin-left: 30px; */
+            width: 80%;
+            padding: 5%;
         }
 
         td,
@@ -177,21 +180,25 @@ include './class/connection.php';
             background-color: #dddddd;
         }
     </style>
-    <table id=teacherstable style="margin-left: 80px">
-        <caption><strong>Teacher's Information </strong></caption>
-        <tr>
-            <th width="130">Faculty No</th>
-            <th width=200>Name</th>
-            <th width=140>Alias</th>
-            <th width="190">Designation</th>
-            <th width="190">Contact No.</th>
-            <th width="290">Email ID</th>
-            <th width="40">Action</th>
-        </tr>
-        <tbody id="table-data">
-            <!-- teachers information will be fetched here by asynchronous ajax request -->
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table id=teacherstable class="table table-hover">
+            <caption><strong>Teacher's Information </strong></caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Faculty No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Alias</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">Contact No.</th>
+                    <th scope="col">Email ID</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                <!-- teachers information will be fetched here by asynchronous ajax request -->
+            </tbody>
+        </table>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {

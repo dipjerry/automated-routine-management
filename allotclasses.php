@@ -91,31 +91,6 @@ if (isset($_POST['in_class'])) {
     </div>
 </form>
 
-<script>
-    function deleteHandlers() {
-        var table = document.getElementById("allotedsubjectstable");
-        var rows = table.getElementsByTagName("tr");
-        for (i = 0; i < rows.length; i++) {
-            var currentRow = table.rows[i];
-            //var b = currentRow.getElementsByTagName("td")[0];
-            var createDeleteHandler =
-                function(row) {
-                    return function() {
-                        var cell = row.getElementsByTagName("td")[0];
-                        var id = cell.innerHTML;
-                        var x;
-                        if (confirm("Are You Sure?") == true) {
-                            window.location.href = "deleteallotment.php?name=" + id;
-
-                        }
-
-                    };
-                };
-
-            currentRow.cells[2].onclick = createDeleteHandler(currentRow);
-        }
-    }
-</script>
 <div align="center">
     <style>
         table {
@@ -146,25 +121,57 @@ if (isset($_POST['in_class'])) {
             <th width="400">Alloted To</th>
             <th width="60">Action</th>
         </tr>
-        <tbody>
-            <?php
-            $q = mysqli_query(
-                $con,
-                "SELECT * FROM classrooms "
-            );
-            $courses = array('2nd Year', '3rd Year');
-            while ($row = mysqli_fetch_assoc($q)) {
-                if ($row['status'] == 0)
-                    continue;
-
-                echo "<tr><td>{$row['name']}</td>
-                    <td>{$courses[$row['status'] - 2]}</td>
-                <td><button>Delete</button></td>
-                    </tr>\n";
-            }
-            echo "<script>deleteHandlers();</script>";
-            ?>
+        <tbody id="table-data">
+            <!-- teachers information will be fetched here by asynchronous ajax request -->
         </tbody>
     </table>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Load Table Records
+        function loadTable() {
+            $.ajax({
+                url: "./class/allotmentFunction.php",
+                type: "POST",
+                data: {
+                    method: 'load_classroom',
+                },
+                success: function(data) {
+                    $("#table-data").html(data);
+                }
+            });
+        }
+        loadTable();
+        $(document).on("click", ".delete-btn", function() {
+            if (confirm("Do you really want to delete this record ?")) {
+                var classId = $(this).data("cid");
+                var element = this;
+                alert("hello");
+                $.ajax({
+                    url: "./class/allotmentFunction.php",
+                    type: "POST",
+                    data: {
+                        method: 'remove_classroom',
+                        id: classId,
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            $(element).closest("tr").fadeOut();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                            $("#success-message").html("Can't Delete Record.").slideDown();
+                            $("#error-message").slideUp();
+                            loadTable();
+                            alert("ok");
+                        } else {
+                            loadTable();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 <?php include('./views/includes/footer.php'); ?>

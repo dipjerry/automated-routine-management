@@ -1,4 +1,4 @@
 <?php
 
 // $con = mysqli_connect("localhost", "root", "", "classroutine");
-$con = mysqli_connect("localhost", "root", "", "class2");
+$con = mysqli_connect("localhost", "root", "", "classtest");

@@ -1,6 +1,7 @@
 <?php
 include('./views/includes/header.php');
 include('./views/includes/nav.php');
+include('./class/connection.php');
 ?>
 
 <br>
@@ -15,22 +16,45 @@ include('./views/includes/nav.php');
             echo '<script>alert("Select a file first! ");</script>';
         } else {
             $file = $_FILES['file']['tmp_name'];
-            $handle = fopen($file, 'r');
-            while (!feof($handle)) {
-                $filesop = fgetcsv($handle, 1000);
-                $code = $filesop[0];
-                $name = $filesop[1];
-                $type = $filesop[2];
-                $semester = $filesop[3];
-                $department = $filesop[4];
-                if ($code == "" || $code == "Subject Code") {
-                    continue;
+            // $handle = fopen($file, 'r', ';');
+            $row = 1;
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $num = count($data);
+                    $code = $data[0];
+                    $name = $data[1];
+                    $type = $data[2];
+                    $semester = $data[3];
+                    $department = $data[4];
+                    if ($code == "" || $code == "Subject Code") {
+                        continue;
+                    }
+                    // echo ($code . ' ' . $name . ' ' . $type . ' ' . $semester . ' ' . $department);
+                    $q = mysqli_query(
+                        $con,
+                        "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
+                    );
                 }
-                $q = mysqli_query(
-                    $con,
-                    "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
-                );
+
+                fclose($handle);
             }
+            // while (!feof($handle)) {
+            //     $filesop = fgetcsv($handle, 1000);
+            //     echo ($filesop[0]);
+            //     $code = $filesop[0];
+            //     $name = $filesop[1];
+            //     $type = $filesop[2];
+            //     $semester = $filesop[3];
+            //     $department = $filesop[4];
+            //     if ($code == "" || $code == "Subject Code") {
+            //         continue;
+            //     }
+            //     // echo ($code . ' ' . $name . ' ' . $type . ' ' . $semester . ' ' . $department);
+            //     // $q = mysqli_query(
+            //     //     $con,
+            //     //     "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
+            //     // );
+            // }
         }
     }
     ?>

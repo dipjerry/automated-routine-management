@@ -73,6 +73,7 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         $con,
         "SELECT name FROM classrooms WHERE status='$year'"
     );
+    echo ($year);
     $row = mysqli_fetch_assoc($classroom_query);
     $classroom = $row['name'];
     for ($j = 0; $j < 30; $j++) {
@@ -83,7 +84,7 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
                 break;
             }
         }
-        echo $tindex;
+        // echo $tindex;
 
         if ($j % 6 == 0)
             $r++;

@@ -11,7 +11,7 @@ include('./class/connection.php');
                 <?php
                 $q = mysqli_query(
                     $con,
-                    "SELECT * FROM subjects"
+                    "SELECT * FROM subjects ORDER BY department,semester ASC"
                 );
                 $row_count = mysqli_num_rows($q);
                 if ($row_count) {
@@ -20,7 +20,7 @@ include('./class/connection.php');
                     while ($row = mysqli_fetch_assoc($q)) {
                         if ($row['isAlloted'] == 1 || $row['course_type'] == "LAB")
                             continue;
-                        $mystring .= '<option value="' . $row['subject_code'] . '">' . $row['subject_name'] . '</option>';
+                        $mystring .= '<option value="' . $row['subject_code'] . '">' . $row['subject_code'] . " " . $row['subject_name'] . '</option>';
                     }
                     echo $mystring;
                 }
@@ -32,7 +32,7 @@ include('./class/connection.php');
                 <?php
                 $q = mysqli_query(
                     $con,
-                    "SELECT * FROM teachers "
+                    "SELECT * FROM teachers ORDER BY faculty_number ASC"
                 );
                 $row_count = mysqli_num_rows($q);
                 if ($row_count) {
@@ -97,8 +97,10 @@ include('./class/connection.php');
 <table id=allotedsubjectstable>
     <caption><strong>THEORY COURSES ALLOTMENT</strong></caption>
     <tr>
+        <th width="70">Semester</th>
         <th width="150">Subject Code</th>
-        <th width=420>Subject Title</th>
+        <th width=320>Subject Title</th>
+        <th width=150>Branch</th>
         <th width="170">Faculty No</th>
         <th width="330">Teacher's Name</th>
         <th width="40">Action</th>
@@ -107,7 +109,7 @@ include('./class/connection.php');
         <?php
         $q = mysqli_query(
             $con,
-            "SELECT * FROM subjects "
+            "SELECT * FROM subjects  ORDER BY semester ASC"
         );
         while ($row = mysqli_fetch_assoc($q)) {
             if ($row['isAlloted'] == 0 || $row['course_type'] == 'LAB')
@@ -118,8 +120,11 @@ include('./class/connection.php');
                 "SELECT name FROM teachers WHERE faculty_number = '$teacher_id'"
             );
             $trow = mysqli_fetch_assoc($t);
-            echo "<tr><td>{$row['subject_code']}</td>
+            echo "<tr>
+                    <td>{$row['semester']}</td>
+                    <td>{$row['subject_code']}</td>
                     <td>{$row['subject_name']}</td>
+                    <td>{$row['department']}</td>
                     <td>{$row['allotedto']}</td>
                     <td>{$trow['name']}</td>
                    <td>

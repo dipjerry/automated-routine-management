@@ -152,7 +152,7 @@ if (isset($_POST['in_class'])) {
                 $con,
                 "SELECT * FROM classrooms "
             );
-            $courses = array('B.Tech 2nd Year', 'B.Tech 3rd Year', 'B.Tech 4rth Year');
+            $courses = array('2nd Year', '3rd Year');
             while ($row = mysqli_fetch_assoc($q)) {
                 if ($row['status'] == 0)
                     continue;

@@ -80,7 +80,6 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         for ($z = 0; $z < $count; $z++) {
             if ($teachers[$z]->id == $subjects[$i]->subjectteacher) {
                 $tindex = $z;
-                echo "ola" + $tindex;
                 break;
             }
         }

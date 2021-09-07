@@ -1,6 +1,5 @@
 <?php
 require("./connection.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $methods = $_POST['method'];
     $tab = 'Teachers_list';
@@ -12,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         add($_POST['name'], $con);
     }
 }
-
 function load($conn)
 {
     $sql = "SELECT * FROM classrooms";
@@ -31,7 +29,6 @@ function load($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove($name, $conn)
 {
     $sql = "DELETE FROM classrooms WHERE name = '$name' ";
@@ -41,27 +38,6 @@ function remove($name, $conn)
         echo 0;
     }
 }
-
-// function add($student_id, $conn)
-// {
-// if (isset($_POST['CN'])) {
-//     $name = $_POST['CN'];
-// } else {
-//     $message = "dead.";
-//     echo "<script type='text/javascript'>alert('$message');</script>";
-//     die();
-// }
-// $q = mysqli_query($conn, "INSERT INTO classrooms VALUES ('$name',0)");
-// if ($q) {
-//     $message = "Classroom added.";
-//     echo "<script type='text/javascript'>alert('$message');</script>";
-//     header("Location:addclassrooms.php");
-// } else {
-//     $message = "Username and/or Password incorrect.\\nTry again.";
-//     echo "<script type='text/javascript'>alert('$message');</script>";
-
-// }
-// }
 function add($name, $conn)
 {
     $sql = "INSERT INTO classrooms VALUES ('$name',0)";

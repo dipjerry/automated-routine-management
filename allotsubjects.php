@@ -7,7 +7,7 @@ include('./class/connection.php');
 <div align="center">
     <form action="allotmentFormvalidation.php" method="post" style="margin-top: 100px">
         <div style="margin-top: 5px">
-            <select name="tobealloted" class="list-group-item">
+            <select name="tobealloted" class="list-group-item" required>
                 <?php
                 $q = mysqli_query(
                     $con,
@@ -28,7 +28,7 @@ include('./class/connection.php');
             </select>
         </div>
         <div>
-            <select name="toalloted" class="list-group-item">
+            <select name="toalloted" class="list-group-item" required>
                 <?php
                 $q = mysqli_query(
                     $con,
@@ -106,7 +106,6 @@ include('./class/connection.php');
         <th width="40">Action</th>
     </tr>
     <tbody id="table-data">
-
     </tbody>
 </table>
 <script type="text/javascript">
@@ -129,7 +128,6 @@ include('./class/connection.php');
             if (confirm("Do you really want to delete this record ?")) {
                 var subId = $(this).data("cid");
                 var element = this;
-                alert("hello");
                 $.ajax({
                     url: "./class/allotmentFunction.php",
                     type: "POST",
@@ -140,16 +138,11 @@ include('./class/connection.php');
                     success: function(data) {
                         if (data == 1) {
                             $(element).closest("tr").fadeOut();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
-                            $("#success-message").html("Can't Delete Record.").slideDown();
-                            $("#error-message").slideUp();
                             loadTable();
-                            alert("ok");
+                            alert("Deleted successfully");
                         } else {
                             loadTable();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
+                            alert("Deletion failed");
                         }
                     }
                 });

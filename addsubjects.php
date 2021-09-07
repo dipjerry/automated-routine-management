@@ -3,7 +3,6 @@ include('./views/includes/header.php');
 include('./views/includes/nav.php');
 include('./class/connection.php');
 ?>
-
 <br>
 <div align="center" style="margin-top:60px">
     <form name="import" method="post" enctype="multipart/form-data">
@@ -33,7 +32,6 @@ include('./class/connection.php');
                         "INSERT INTO subjects VALUES ('$code','$name','$type','$semester','$department',0,'','','')"
                     );
                 }
-
                 fclose($handle);
             }
         }
@@ -129,7 +127,6 @@ include('./class/connection.php');
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
-
             width: 90%;
         }
 
@@ -196,7 +193,6 @@ include('./class/connection.php');
                             $("#success-message").html("Can't Delete Record.").slideDown();
                             $("#error-message").slideUp();
                             loadTable();
-                            alert("ok");
                         } else {
                             loadTable();
                             $("#error-message").html("Can't Delete Record.").slideDown();
@@ -215,8 +211,7 @@ include('./class/connection.php');
             var subjectsemester = $("#subjectsemester").val();
             var subjectdepartment = $("#subjectdepartment").val();
             if (subjectname == "" || subjectcode == "" || subjecttype == "" || subjectsemester == "" || subjectdepartment == "") {
-                $("#error-message").html("All fields are required.").slideDown();
-                $("#success-message").slideUp();
+                alert("All field are required");
             } else {
                 $.ajax({
                     url: "./class/subjectFunctions.php",
@@ -231,16 +226,13 @@ include('./class/connection.php');
                     },
                     success: function(data) {
                         if (data == 1) {
-
                             modal.style.display = "none";
                             loadTable();
                             alert("ok");
                             $("#addForm").trigger("reset");
-                            $("#success-message").html("Data Inserted Successfully.").slideDown();
-                            $("#error-message").slideUp();
+                            echo("Adding record failed");
                         } else {
-                            $("#error-message").html("Can't Save Record.").slideDown();
-                            $("#success-message").slideUp();
+                            echo("Adding record failed");
                         }
                     }
                 });

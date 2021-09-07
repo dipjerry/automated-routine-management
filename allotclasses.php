@@ -1,50 +1,9 @@
 <?php
 include('./views/includes/header.php');
+include('./views/includes/nav.php');
 include('./class/connection.php');
 ?>
-
-<div class="navbar navbar-inverse navbar-fixed-top " id="menu">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-        <div class="navbar-collapse collapse move-me">
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="addteachers.php">ADD TEACHERS</a></li>
-                <li><a href="addsubjects.php">ADD SUBJECTS</a></li>
-                <li><a href="addclassrooms.php">ADD CLASSROOMS</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">ALLOTMENT
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href=allotsubjects.php>THEORY COURSES</a>
-                        </li>
-                        <li>
-                            <a href=allotpracticals.php>PRACTICAL COURSES</a>
-                        </li>
-                        <li>
-                            <a href=allotclasses.php>CLASSROOMS</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="generatetimetable.php">GENERATE TIMETABLE</a></li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.php">LOGOUT</a></li>
-            </ul>
-
-        </div>
-    </div>
-</div>
-<!--NAVBAR SECTION END-->
 <br>
-
 <?php
 if (isset($_POST['in_class'])) {
     $year = $_POST['course'];
@@ -56,7 +15,6 @@ if (isset($_POST['in_class'])) {
 }
 ?>
 <form action="allotclasses.php" method="post" style="margin-top: 100px">
-
     <div align="center">
         <select name="course" class="list-group-item">
             <option selected disabled>Select Course</option>
@@ -64,7 +22,6 @@ if (isset($_POST['in_class'])) {
             <option value="3">3rd Year</option>
         </select>
     </div>
-
     <div align="center" style="margin-top: 5px">
         <select name="in_class" class="list-group-item">
             <?php
@@ -90,7 +47,6 @@ if (isset($_POST['in_class'])) {
         <button type="submit" class="btn btn-success btn-lg">Allot</button>
     </div>
 </form>
-
 <div align="center">
     <style>
         table {
@@ -113,7 +69,6 @@ if (isset($_POST['in_class'])) {
             background-color: #dddddd;
         }
     </style>
-
     <table id=allotedclassroomstable>
         <caption><strong>CLASSROOMS ALLOTMENT</strong></caption>
         <tr>
@@ -146,7 +101,6 @@ if (isset($_POST['in_class'])) {
             if (confirm("Do you really want to delete this record ?")) {
                 var classId = $(this).data("cid");
                 var element = this;
-                alert("hello");
                 $.ajax({
                     url: "./class/allotmentFunction.php",
                     type: "POST",
@@ -157,16 +111,11 @@ if (isset($_POST['in_class'])) {
                     success: function(data) {
                         if (data == 1) {
                             $(element).closest("tr").fadeOut();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
-                            $("#success-message").html("Can't Delete Record.").slideDown();
-                            $("#error-message").slideUp();
                             loadTable();
-                            alert("ok");
+                            alert("Deleted sucessfully");
                         } else {
+                            alert("Deleted sucessfully");
                             loadTable();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
                         }
                     }
                 });

@@ -125,8 +125,7 @@ include("./class/connection.php")
                 }
                 echo '</table>';
                 if (isset($_POST['select_semester'])) {
-                    echo "<div align=\"center\">" . "<br>" . $str . "<br>
-                            <strong>" . $sign . "<br></strong></div>";
+                    echo "<div align=\"center\">" . "<br>" . $str . "<br>";
                 }
                 unset($_GET['generated']);
             } else {

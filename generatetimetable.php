@@ -5,54 +5,11 @@ if (isset($_GET['success'])) {
 }
 include './class/connection.php';
 include './views/includes/header.php';
+include './views/includes/nav.php';
 ?>
-
-<div class="navbar navbar-inverse navbar-fixed-top " id="menu">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-        <div class="navbar-collapse collapse move-me">
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="addteachers.php">ADD TEACHERS</a></li>
-                <li><a href="addsubjects.php">ADD SUBJECTS</a></li>
-                <li><a href="addclassrooms.php">ADD CLASSROOMS</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">ALLOTMENT
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href=allotsubjects.php>THEORY COURSES</a>
-                        </li>
-                        <li>
-                            <a href=allotpracticals.php>PRACTICAL COURSES</a>
-                        </li>
-                        <li>
-                            <a href=allotclasses.php>CLASSROOMS</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="generatetimetable.php">GENERATE TIMETABLE</a></li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.php">LOGOUT</a></li>
-            </ul>
-
-        </div>
-    </div>
-</div>
-<!--NAVBAR SECTION END-->
 <br>
-
-
 <!--Algorithm Implementation-->
 <div id="myModal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
         <div class="modal-header">
@@ -61,19 +18,15 @@ include './views/includes/header.php';
         </div>
         <div class="modal-body" id="AssignSubstitute">
             <!--Admin Login Form-->
-
             <div style="display:block" id="assignSubstituteForm">
                 <form method="post" action="assignSubstituteFormValidation.php">
                     <div class="form-group">
                         <label for="substitute">Substitute</label>
                         <select class="form-control" id="substitute" name="SB">
-
                         </select>
                         <input type="hidden" id="cell_number" class="btn btn-default" name="CN">
-
                     </div>
                     <div align="right" class="form-group">
-
                         <input type="submit" id="submit" class="btn btn-default" name="ADD" value="CHECK">
                     </div>
                 </form>
@@ -90,7 +43,6 @@ include './views/includes/header.php';
         modal.style.display = "none";
         assignsubstitueForm.style.display = "none";
     }
-
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -118,7 +70,6 @@ include './views/includes/header.php';
                 echo " \"<option value=\"{$row['faculty_number']}\">{$row['name']}</option>\"";
             }
             ?>
-
         </select>
         <button type="submit" id="viewteacher" class="btn btn-success btn-lg" style="margin-top: 5px">VIEW TIMETABLE
         </button>
@@ -128,12 +79,10 @@ include './views/includes/header.php';
     <div align="center" style="margin-top: 20px">
         <select name="select_semester" class="list-group-item">
             <option selected disabled>Select Semester</option>
-            <option value="3"> B.Tech I Year ( Semester I )</option>
-            <option value="4"> B.Tech I Year ( Semester II )</option>
-            <option value="3"> B.Tech II Year ( Semester III )</option>
-            <option value="4"> B.Tech II Year ( Semester IV )</option>
-            <option value="5"> B.Tech III Year ( Semester V )</option>
-            <option value="6"> B.Tech III Year ( Semester VI )</option>
+            <option value="3"> II Year ( Semester III )</option>
+            <option value="4"> II Year ( Semester IV )</option>
+            <option value="5"> III Year ( Semester V )</option>
+            <option value="6"> III Year ( Semester VI )</option>
         </select>
         <button type="submit" id="viewsemester" class="btn btn-success btn-lg" style="margin-top: 5px">VIEW TIMETABLE
         </button>
@@ -151,11 +100,9 @@ include './views/includes/header.php';
                 continue;
             }
             var currentCell = cells[i];
-            //var b = currentRow.getElementsByTagName("td")[0];
             var createSubstituteHandler =
                 function(cell, i) {
                     return function() {
-
                         document.getElementById('cell_number').value = i;
                         index = i;
                         var xmlhttp = new XMLHttpRequest();
@@ -164,7 +111,6 @@ include './views/includes/header.php';
                                 var modal = document.getElementById('myModal');
                                 modal.style.display = "block";
                                 document.getElementById("substitute").innerHTML = this.responseText;
-
                             }
                         };
                         xmlhttp.open("GET", "getcellindex.php?i=" + i, false);
@@ -175,7 +121,6 @@ include './views/includes/header.php';
         }
     }
 </script>
-
 <div>
     <br>
     <style>
@@ -202,24 +147,36 @@ include './views/includes/header.php';
         }
     </style>
     <div id="TT" style="background-color: #FFFFFF">
-        <table border="2" cellspacing="3" align="center" id="timetable">
+        <table class="table" border="2" cellspacing="3" align="center" id="timetable">
             <caption><strong><br><br>
                     <?php
                     if (isset($_POST['select_semester'])) {
-                        echo "COMPUTER ENGINEERING DEPARTMENT SEMESTER " . $_POST['select_semester'] . " ";
+                        echo "COMPUTER ENGINEERING DEPARTMENT SEMESTER" . $_POST['select_semester'] . " ";
                         $year = (int)($_POST['select_semester'] / 2) + $_POST['select_semester'] % 2;
                         $r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * from classrooms
                         WHERE status = '$year'"));
+                        if (!$r) {
+                            echo ("<h3>classrooms are not alloted yet</h3>");
+                            exit();
+                        }
                         echo " ( " . $r['name'], " ) ";
                     } else if (isset($_POST['select_teacher'])) {
                         $id = $_POST['select_teacher'];
                         $r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * from teachers
                         WHERE faculty_number = '$id'"));
+                        if (!$r) {
+                            echo ("<h3>" . $id . " is not alloted a subject yet</h3>");
+                            exit();
+                        }
                         echo $r['name'];
                     } else if (isset($_GET['display'])) {
                         $id = $_GET['display'];
                         $r = mysqli_fetch_assoc(mysqli_query($con, "SELECT * from teachers
                         WHERE faculty_number = '$id'"));
+                        if (!$r) {
+                            echo ("<h3>" . $id . " is not alloted a subject yet</h3>");
+                            exit();
+                        }
                         echo $r['name'];
                     }
                     ?>
@@ -248,8 +205,12 @@ include './views/includes/header.php';
                 if (isset($_POST['select_semester']) || isset($_POST['select_teacher']) || isset($_GET['display'])) {
                     $q = mysqli_query(
                         $con,
-                        "SELECT * FROM" . $table
+                        "SELECT * FROM  $table"
                     );
+                    if (!$q) {
+                        echo ("<h3>Routine is not generated yet</h3>");
+                        exit();
+                    }
                     $qq = mysqli_query(
                         $con,
                         "SELECT * FROM subjects"
@@ -317,7 +278,7 @@ include './views/includes/header.php';
                     while ($row = mysqli_fetch_assoc($q)) {
                         $i++;
                         echo "
-                <tr>
+                 <tr>
                 <td style=\"text-align:center\">$days[$i]</td>
                 <td style=\"text-align:center\">{$row['period1']}</td>
                 <td style=\"text-align:center\">{$row['period2']}</td>
@@ -326,14 +287,11 @@ include './views/includes/header.php';
                 <td style=\"text-align:center\">{$row['period5']}</td>
                 <td style=\"text-align:center\">LUNCH</td>
                 <td style=\"text-align:center\">{$row['period6']}</td>
-                </tr>\n
-                ";
+                </tr>\n";
                     }
-
                     echo '</table>';
-                    $sign = "GENERATED VIA TIMETABLE MANAGEMENT SYSTEM, COMPUTER ENGINEERING DEPARTMENT, AMU.";
                     echo "<div style='margin-left: 10px' align='center'>" . "<br>" . $str . "<br></div>" .
-                        "<div style='margin-left: 10px' align='center'>" . "<strong>" . $sign . "<br></strong></div>";
+                        "<div style='margin-left: 10px' align='center'>" . "<strong>" . "Nalbari polytechnic" . "<br></strong></div>";
                 }
                 if (isset($_POST['select_teacher'])) {
                     echo "<script>Substitute();</script>";
@@ -348,17 +306,17 @@ include './views/includes/header.php';
 </div>
 <script type="text/javascript">
     function gendf() {
-        var doc = new jsPDF();
-
+        var doc = new jsPDF({
+            orientation: 'landscape',
+        });
         doc.addHTML(document.getElementById('TT'), function() {
-
             doc.save(`<?php
                         if (isset($_POST["select_semester"])) {
-                            echo "ttms semester " . $_POST["select_semester"];
+                            echo "semester " . $_POST["select_semester"];
                         } else if (isset($_POST["select_teacher"])) {
-                            echo "ttms " . $_POST["select_teacher"];
+                            echo "routine" . $_POST["select_teacher"];
                         } else if (isset($_GET["display"])) {
-                            echo "ttms " . $_GET["display"];
+                            echo $_GET["display"];
                         }
                         ?>` + '.pdf');
         })

@@ -1,5 +1,4 @@
 <?php
-
 include('sms.php');
 session_start();
 $whose = $_SESSION['shown_id'];
@@ -7,7 +6,6 @@ $sub = $_POST['SB'];
 $class = $_POST['CN'];
 $days = array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
 $day = $days[($class - 8) / 8];
-
 $periods = array("period1", "period2", "period3", "period4", "period5", "period6");
 $period = $periods[($class - 1) % 8];
 $query = mysqli_query($con, "SELECT * FROM teachers WHERE faculty_number = '$whose'");
@@ -20,7 +18,6 @@ $whose = strtolower($whose);
 $sub = strtolower($sub);
 $query = mysqli_query($con, "SELECT * FROM $sub WHERE day = '$day'");
 $row = mysqli_fetch_assoc($query);
-
 $available = false;
 if ($row[$period] == "-<br>-" || $row[$period] == "-<br>" || $row[$period] == "-") {
     $message = 'Message Sent!';
@@ -28,15 +25,12 @@ if ($row[$period] == "-<br>-" || $row[$period] == "-<br>" || $row[$period] == "-
     echo "<script type='text/javascript'>alert('Selected substitute teacher is not available!');
         window.location.href = 'generatetimetable.php?display='$whose;</script>";
 }
-
 $query = mysqli_query($con, "SELECT * FROM $whose WHERE day = '$day'");
 $row = mysqli_fetch_assoc($query);
 $pieces = explode("<br>", $row[$period]);
-
 $string = "Hello " . $sub_name . ", You have to take class " . $pieces[0] . " of " . $whose_name . " in " . $pieces[1] . "\n\n-Sent from TimeTable Management System AMU";
 $_SESSION['s'] = $string;
 echo 'Sending SMS...';
-
 if (isset($_POST['pwd'])) {
     echo "<script type='text/javascript'>alert('Message Sent!');
         window.location.href = 'generatetimetable.php?display=" . $whose . "';</script>";

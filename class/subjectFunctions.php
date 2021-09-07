@@ -1,6 +1,5 @@
 <?php
 require("./connection.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $methods = $_POST['method'];
     $tab = 'Teachers_list';
@@ -19,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
     }
 }
-
 function load($conn)
 {
     $sql = "SELECT * FROM subjects ORDER BY subject_code ASC ";
@@ -42,7 +40,6 @@ function load($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove($subject_id, $conn)
 {
     $sql = "DELETE FROM `subjects` WHERE subject_code = '$subject_id'";
@@ -52,7 +49,6 @@ function remove($subject_id, $conn)
         echo 0;
     }
 }
-
 function add($name, $code, $course, $sem, $dept, $conn)
 {
     $sql = "INSERT INTO subjects VALUES ('$code','$name','$course','$sem','$dept',0,'','','')";

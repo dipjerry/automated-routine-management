@@ -1,5 +1,4 @@
 <?php
-
 include './class/connection.php';
 if (isset($_POST['tobealloted'])) {
     $subject = $_POST['tobealloted'];
@@ -10,7 +9,6 @@ if (isset($_POST['tobealloted'])) {
     die();
 }
 $q = mysqli_query($con, "UPDATE subjects SET isAlloted=1, allotedto='$teacher' WHERE subject_code='$subject'");
-
 if ($q) {
     $message = "Done.\\nTry again.";
     echo "<script type='text/javascript'>alert('$message');</script>";

@@ -63,20 +63,17 @@ include('./views/includes/nav.php');
             border-collapse: collapse;
             width: 70%;
         }
-
         td,
         th {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
         }
-
         tr:nth-child(even) {
             background-color: #dddddd;
         }
     </style>
     <div class="table-responsive">
-
         <table id=classroomstable>
             <caption><strong>ADDED CLASSROOMS</strong></caption>
             <thead class="thead-dark">
@@ -122,16 +119,11 @@ include('./views/includes/nav.php');
                     success: function(data) {
                         if (data == 1) {
                             $(element).closest("tr").fadeOut();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
-                            $("#success-message").html("Can't Delete Record.").slideDown();
-                            $("#error-message").slideUp();
                             loadTable();
-                            alert("ok");
+                            alert("deleted successfully");
                         } else {
                             loadTable();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
+                            alert("Failed to delete")
                         }
                     }
                 });
@@ -156,11 +148,10 @@ include('./views/includes/nav.php');
                         if (data == 1) {
                             loadTable();
                             $("#addForm").trigger("reset");
-                            $("#success-message").html("Data Inserted Successfully.").slideDown();
-                            $("#error-message").slideUp();
+                            alert("Added record successfully")
                         } else {
-                            $("#error-message").html("Can't Save Record.").slideDown();
-                            $("#success-message").slideUp();
+                            $(element).closest("tr").fadeOut();
+                            alert("Adding record failed")
                         }
                     }
                 });

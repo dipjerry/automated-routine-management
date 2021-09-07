@@ -25,7 +25,6 @@ include './class/connection.php';
 </head>
 
 <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top " id="menu">
         <div class="container">
             <div class="navbar-header">
@@ -34,26 +33,20 @@ include './class/connection.php';
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
             </div>
             <div class="navbar-collapse collapse move-me">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="#">Hello <?php echo $_SESSION['loggedin_name']; ?></a></li>
-
-
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="index.php">LOGOUT</a></li>
                 </ul>
-
             </div>
         </div>
     </div>
     <!--NAVBAR SECTION END-->
     <br>
     <!--Algorithm Implementation-->
-
-
     <form action="facultypage.php" method="post">
         <div style="margin-top: 100px" align="center">
             <select name="select_teacher" class="list-group-item">
@@ -80,14 +73,11 @@ include './class/connection.php';
                 <option value="4">4</option>
                 <option value="5">5</option>
                 <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
             </select>
             <button type="submit" id="viewsemester" style="margin-top: 5px" class="btn btn-success btn-lg">VIEW TIMETABLE
             </button>
         </div>
     </form>
-
     <div>
         <br>
         <style>
@@ -223,7 +213,6 @@ include './class/connection.php';
                         }
                         while ($row = mysqli_fetch_assoc($q)) {
                             $i++;
-
                             echo "
                  <tr><td style=\"text-align:center\">$days[$i]</td>
                  <td style=\"text-align:center\">{$row['period1']}</td>
@@ -235,7 +224,6 @@ include './class/connection.php';
                   <td style=\"text-align:center\">{$row['period6']}</td>
                 </tr>\n";
                         }
-
                         echo '</table>';
                     }
                     ?>
@@ -255,7 +243,6 @@ include './class/connection.php';
                             }
                             ?>` + '.pdf');
                 alert("Downloaded!");
-
             });
         }
     </script>

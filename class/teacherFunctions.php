@@ -1,6 +1,5 @@
 <?php
 require("./connection.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $methods = $_POST['method'];
     $tab = 'Teachers_list';
@@ -12,12 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         add($_POST['id'], $con);
     }
 }
-
 function load($conn)
 {
     $sql = "SELECT * FROM teachers ORDER BY faculty_number ASC";
     $result = mysqli_query($conn, $sql) or die("SQL Query Failed.");
-    $output = "";
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             echo "
@@ -38,7 +35,6 @@ function load($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove($student_id, $conn)
 {
     $sql = "DELETE FROM `teachers` WHERE faculty_number = '$student_id'";
@@ -48,7 +44,6 @@ function remove($student_id, $conn)
         echo 0;
     }
 }
-
 function add($student_id, $conn)
 {
     $sql = "DELETE FROM `teachers` WHERE faculty_number = '$student_id'";

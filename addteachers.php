@@ -2,7 +2,6 @@
 include('./views/includes/nav.php');
 include './class/connection.php';
 ?>
-
 <br>
 <div class="alert alert-warning alert-dismissible fade show" id="error-alert" style="display: none;">
     <strong>Warning!</strong>
@@ -23,7 +22,6 @@ include './class/connection.php';
         <input type="file" name="file" />
         <input type="submit" name="teacherexcel" id="teacherexcel" class="btn btn-info btn-lg" value="IMPORT EXCEL" />
     </form>
-
     <?php
     if (isset($_POST['teacherexcel'])) {
         if (empty($_FILES['file']['tmp_name'])) {
@@ -65,7 +63,6 @@ include './class/connection.php';
                         }
                     }
                 }
-
                 fclose($handle);
             }
         }
@@ -221,16 +218,11 @@ include './class/connection.php';
                     success: function(data) {
                         if (data == 1) {
                             $(element).closest("tr").fadeOut();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
-                            $("#success-message").html("Can't Delete Record.").slideDown();
-                            $("#error-message").slideUp();
                             loadTable();
-                            alert("ok");
+                            alert("Deleted succesfully");
                         } else {
                             loadTable();
-                            $("#error-message").html("Can't Delete Record.").slideDown();
-                            $("#success-message").slideUp();
+                            alert("Deletion failed");
                         }
                     }
                 });

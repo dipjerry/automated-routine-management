@@ -13,7 +13,6 @@ class Subject
     public $subjectteacher2; //faculty number of teacher2
     public $subjectteacher3; //faculty number of teacher3
 }
-
 /**Class to store teachers details**/
 class Teacher
 {
@@ -21,16 +20,12 @@ class Teacher
     public $days = array(); //schedule
     public $classroom_names = array(); //classroom names
 }
-
 $subjectslots = array(); //subjects slots for all semesters
 $aliasslots = array(); //alias slots corresponding to each subject
-
 $query = mysqli_query($con, "SELECT * FROM subjects ");
 $subjects[] = new Subject(); //to store theory subjects
 $practicals[] = new Subject(); //to store practical subjects
-
 $count = 0;
-
 /** fetching theory subjects and saving in subjects array*/
 while ($row = mysqli_fetch_assoc($query)) {
     if ($row['course_type'] == 'LAB')
@@ -52,7 +47,6 @@ while ($row = mysqli_fetch_assoc($query)) {
 $subjects_count = $count;
 /**Fetching teachers and saving into teachers array*/
 $query = mysqli_query($con, "SELECT * FROM teachers ");
-
 $teachers[] = new Teacher();
 $count = 0;
 while ($row = mysqli_fetch_assoc($query)) {
@@ -62,23 +56,22 @@ while ($row = mysqli_fetch_assoc($query)) {
 }
 $teachers_count = $count;
 $r = -1;
+/** Genrating timetable for theory courses, 
+ * with maximum class for each subject equal to 4 */
 
-/** Genrating timetable for theory courses, with maximum class for each subject equal to 4 */
 for ($I = 0; $I < $subjects_count * 4; $I++) {
     $tindex;
     $i = $I % $subjects_count;
     $sem = $subjects[$i]->semester;
-    $year = ($sem + 1) / 2;
+    if ($sem % 2 == 0) {
+        $year = ($sem) / 2;
+    } else {
+        $year = ($sem + 1) / 2;
+    }
     $classroom_query = mysqli_query(
         $con,
         "SELECT name FROM classrooms WHERE status='$year'"
     );
-    echo ($i);
-    echo ("\n");
-    echo ($sem);
-    echo ("\n");
-    echo ($year);
-    echo ("\n");
     $row = mysqli_fetch_assoc($classroom_query);
     $classroom = $row['name'];
     for ($j = 0; $j < 30; $j++) {
@@ -89,8 +82,6 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
                 break;
             }
         }
-        // echo $tindex;
-
         if ($j % 6 == 0)
             $r++;
         if (isset($subjectslots[$sem][$r % 6][$j % 5])) {
@@ -125,15 +116,27 @@ for ($I = 0; $I < $subjects_count * 4; $I++) {
         }
     }
 }
-/**********************check for empty slots in semester's timetable*******************************/
-for ($i = 3; $i < 9; $i += 2) {
-    for ($k = 0; $k < 6; $k++) {
-        for ($j = 0; $j < 5; $j++) {
-
-            if (isset($subjectslots[$i][$k][$j % 5])) {
-            } else {
-                $subjectslots[$i][$k][$j % 5] = "-";
-                $aliasslots[$i][$k][$j % 5][0] = "-";
+if ($sem % 2 == 0) {
+    for ($i = 4; $i < 8; $i += 2) {
+        for ($k = 0; $k < 6; $k++) {
+            for ($j = 0; $j < 5; $j++) {
+                if (isset($subjectslots[$i][$k][$j % 5])) {
+                } else {
+                    $subjectslots[$i][$k][$j % 5] = "-";
+                    $aliasslots[$i][$k][$j % 5][0] = "-";
+                }
+            }
+        }
+    }
+} else {
+    for ($i = 3; $i < 7; $i += 2) {
+        for ($k = 0; $k < 6; $k++) {
+            for ($j = 0; $j < 5; $j++) {
+                if (isset($subjectslots[$i][$k][$j % 5])) {
+                } else {
+                    $subjectslots[$i][$k][$j % 5] = "-";
+                    $aliasslots[$i][$k][$j % 5][0] = "-";
+                }
             }
         }
     }
@@ -142,7 +145,6 @@ for ($i = 3; $i < 9; $i += 2) {
 for ($i = 0; $i < $count; $i++) {
     for ($k = 0; $k < 6; $k++) {
         for ($j = 0; $j < 5; $j++) {
-
             if (isset($teachers[$i]->days[1][$k][$j])) {
             } else {
                 $teachers[$i]->days[1][$k][$j] = "-";
@@ -152,7 +154,6 @@ for ($i = 0; $i < $count; $i++) {
     }
 }
 /**Fetching info of practical courses **/
-
 $query = mysqli_query($con, "SELECT * FROM subjects ");
 $count = 0;
 while ($row = mysqli_fetch_assoc($query)) {
@@ -207,7 +208,6 @@ for ($I = 0; $I < 2 * $count; $I++) {
             }
         }
     }
-
     //checking if all three teachers are free
     for ($j = 0; $j < 6; $j++) {
         if (isset($subjectslots[$sem][$j][5])) {
@@ -231,44 +231,71 @@ for ($I = 0; $I < 2 * $count; $I++) {
         }
     }
 }
-
 /**checks for empty slot**/
-for ($i = 3; $i < 9; $i += 2) {
-    for ($j = 0; $j < 6; $j++) {
-        if (isset($subjectslots[$i][$j][5])) {
-        } else {
-            $subjectslots[$i][$j][5] = '-';
-            $aliasslots[$i][$j][5][0] = '-';
-            $aliasslots[$i][$j][5][1] = '-';
-            $aliasslots[$i][$j][5][2] = '-';
+if ($sem % 2 == 0) {
+    for ($i = 4; $i < 8; $i += 2) {
+        for ($j = 0; $j < 6; $j++) {
+            if (isset($subjectslots[$i][$j][5])) {
+            } else {
+                $subjectslots[$i][$j][5] = '-';
+                $aliasslots[$i][$j][5][0] = '-';
+                $aliasslots[$i][$j][5][1] = '-';
+                $aliasslots[$i][$j][5][2] = '-';
+            }
+        }
+    }
+} else {
+    for ($i = 3; $i < 7; $i += 2) {
+        for ($j = 0; $j < 6; $j++) {
+            if (isset($subjectslots[$i][$j][5])) {
+            } else {
+                $subjectslots[$i][$j][5] = '-';
+                $aliasslots[$i][$j][5][0] = '-';
+                $aliasslots[$i][$j][5][1] = '-';
+                $aliasslots[$i][$j][5][2] = '-';
+            }
         }
     }
 }
-
 for ($i = 0; $i < $teachers_count; $i++) {
     for ($k = 0; $k < 6; $k++) {
-
         if (isset($teachers[$i]->days[1][$k][5])) {
         } else {
             $teachers[$i]->days[1][$k][5] = "-";
         }
     }
 }
-
-
 /******Saving semesters timetable into database*****/
 $days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
-for ($i = 3; $i < 9; $i += 2) {
-    $database_name = " semester" . $i . " ";
-    for ($j = 0; $j < 6; $j++) {
-        $query = "UPDATE" . $database_name . " SET  period1= '" . $subjectslots[$i][$j][0] . "<br>" . $aliasslots[$i][$j][0][0] . "',
-period2='" . $subjectslots[$i][$j][1] . "<br>" . $aliasslots[$i][$j][1][0] . "', 
-period3='" . $subjectslots[$i][$j][2] . "<br>" . $aliasslots[$i][$j][2][0] . "',
-period4='" . $subjectslots[$i][$j][3] . "<br>" . $aliasslots[$i][$j][3][0] . "', 
-period5='" . $subjectslots[$i][$j][4] . "<br>" . $aliasslots[$i][$j][4][0] . "',
-period6='" . $subjectslots[$i][$j][5] . "<br>" . $aliasslots[$i][$j][5][0] . ", " . $aliasslots[$i][$j][5][1] . ", " . $aliasslots[$i][$j][5][2] . "'
- WHERE day='" . $days[$j] . "' ";
-        $q = mysqli_query($con, $query);
+if ($sem % 2 == 0) {
+    for ($i = 4; $i < 8; $i += 2) {
+        $database_name = " semester" . $i . " ";
+        for ($j = 0; $j < 6; $j++) {
+            $query = "UPDATE" . $database_name . " SET  period1= '" . $subjectslots[$i][$j][0] . "<br>" . $aliasslots[$i][$j][0][0] . "',
+            period2='" . $subjectslots[$i][$j][1] . "<br>" . $aliasslots[$i][$j][1][0] . "', 
+            period3='" . $subjectslots[$i][$j][2] . "<br>" . $aliasslots[$i][$j][2][0] . "',
+            period4='" . $subjectslots[$i][$j][3] . "<br>" . $aliasslots[$i][$j][3][0] . "', 
+            period5='" . $subjectslots[$i][$j][4] . "<br>" . $aliasslots[$i][$j][4][0] . "',
+            period6='" . $subjectslots[$i][$j][5] . "<br>" . $aliasslots[$i][$j][5][0] . ", 
+            " . $aliasslots[$i][$j][5][1] . ", " . $aliasslots[$i][$j][5][2] . "'
+            WHERE day='" . $days[$j] . "' ";
+            $q = mysqli_query($con, $query);
+        }
+    }
+} else {
+    for ($i = 3; $i < 7; $i += 2) {
+        $database_name = " semester" . $i . " ";
+        for ($j = 0; $j < 6; $j++) {
+            $query = "UPDATE" . $database_name . " SET  period1= '" . $subjectslots[$i][$j][0] . "<br>" . $aliasslots[$i][$j][0][0] . "',
+        period2='" . $subjectslots[$i][$j][1] . "<br>" . $aliasslots[$i][$j][1][0] . "', 
+        period3='" . $subjectslots[$i][$j][2] . "<br>" . $aliasslots[$i][$j][2][0] . "',
+        period4='" . $subjectslots[$i][$j][3] . "<br>" . $aliasslots[$i][$j][3][0] . "', 
+        period5='" . $subjectslots[$i][$j][4] . "<br>" . $aliasslots[$i][$j][4][0] . "',
+        period6='" . $subjectslots[$i][$j][5] . "<br>" . $aliasslots[$i][$j][5][0] . ", 
+        " . $aliasslots[$i][$j][5][1] . ", " . $aliasslots[$i][$j][5][2] . "'
+        WHERE day='" . $days[$j] . "' ";
+            $q = mysqli_query($con, $query);
+        }
     }
 }
 /******Saving teachers timetable into database*****/
@@ -285,6 +312,5 @@ period6='" . $teachers[$i]->days[1][$j][5] . "'
         $q = mysqli_query($con, $query);
     }
 }
-
 /******redirect back to generate timetable **/
 header("Location:generatetimetable.php?success=true");

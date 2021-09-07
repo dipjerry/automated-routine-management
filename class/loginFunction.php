@@ -14,9 +14,7 @@ if (isset($_POST['admin_login'])) {
         echo "<script type='text/javascript'>alert('$message');</script>";
     }
 }
-
 if (isset($_POST['faculty_login'])) {
-
     session_start();
     if (isset($_POST['FN'])) {
         $fac = $_POST['FN'];

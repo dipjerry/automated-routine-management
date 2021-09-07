@@ -8,7 +8,6 @@ require("./class/loginFunction.php");
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -22,7 +21,6 @@ require("./class/loginFunction.php");
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top " id="menu">
         <div class="container">
@@ -33,14 +31,14 @@ require("./class/loginFunction.php");
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="margin-top:10%">
+    <div class="container-fluid">
         <img src="assets/img/building.jpg" class="img-fluid" alt="Building" style="width:100% ; height:350px ; margin-top:9% ">
     </div>
     <script type="text/javascript">
         function genpdf() {
             var doc = new jsPDF();
             doc.addHTML(document.getElementById('TT'), function() {
-                doc.save('demo timetable.pdf');
+                doc.save('timetable.pdf');
             });
             window.alert("Downloaded!");
         }
@@ -56,12 +54,10 @@ require("./class/loginFunction.php");
         <form data-scroll-reveal="enter from the bottom after 0.2s" action="studentvalidation.php" method="post" target="_blank">
             <select id="select_semester" name="select_semester" class="list-group-item">
                 <option selected disabled>Select Semester</option>
-                <option value="3"> B.Tech I Year ( Semester I )</option>
-                <option value="4"> B.Tech I Year ( Semester II )</option>
-                <option value="3"> B.Tech II Year ( Semester III )</option>
-                <option value="4"> B.Tech II Year ( Semester IV )</option>
-                <option value="5"> B.Tech III Year ( Semester V )</option>
-                <option value="6"> B.Tech III Year ( Semester VI )</option>
+                <option value="3">II Year ( Semester III )</option>
+                <option value="4">II Year ( Semester IV )</option>
+                <option value="5">III Year ( Semester V )</option>
+                <option value="6">III Year ( Semester VI )</option>
             </select>
             <button type="submit" class="btn btn-info btn-lg" style="margin-top: 10px">View</button>
         </form>
@@ -108,17 +104,13 @@ require("./class/loginFunction.php");
         </div>
     </div>
     <script>
-        // Get the modal
         var modal = document.getElementById('myModal');
-        // Get the button that opens the modal
         var teacherLoginBtn = document.getElementById("teacherLoginBtn");
         var adminLoginBtn = document.getElementById("adminLoginBtn");
         var heading = document.getElementById("popupHead");
         var facultyForm = document.getElementById("facultyForm");
         var adminForm = document.getElementById("adminForm");
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
-        // When the user clicks the button, open the modal
         adminLoginBtn.onclick = function() {
             modal.style.display = "block";
             heading.innerHTML = "Admin Login";
@@ -131,13 +123,11 @@ require("./class/loginFunction.php");
             facultyForm.style.display = "block";
             adminForm.style.display = "none";
         }
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             modal.style.display = "none";
             adminForm.style.display = "none";
             facultyForm.style.display = "none";
         }
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";

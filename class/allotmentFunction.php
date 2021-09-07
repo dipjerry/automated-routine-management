@@ -1,6 +1,5 @@
 <?php
 require("./connection.php");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $methods = $_POST['method'];
     if ($methods == "load_classroom") {
@@ -17,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         remove_practical($_POST['id'], $con);
     }
 }
-
 function load_classroom($conn)
 {
     $result = mysqli_query(
@@ -29,7 +27,6 @@ function load_classroom($conn)
         while ($row = mysqli_fetch_assoc($result)) {
             if ($row['status'] == 0)
                 continue;
-
             echo "<tr><td>{$row['name']}</td>
             <td>{$courses[$row['status'] - 2]}</td>
         <td><button Class='delete-btn btn btn-sm btn-danger' data-cid='{$row["name"]}'>Delete</button></td>
@@ -41,7 +38,6 @@ function load_classroom($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove_classroom($name, $conn)
 {
     $sql = "UPDATE classrooms  SET status = '0' WHERE name = '$name'";
@@ -52,13 +48,11 @@ function remove_classroom($name, $conn)
         echo 0;
     }
 }
-
 function load_theory($conn)
 {
     $sql = "SELECT * FROM subjects  ORDER BY semester ASC";
     $result = mysqli_query($conn, $sql) or die("SQL Query Failed.");
     if (mysqli_num_rows($result) > 0) {
-
         while ($row = mysqli_fetch_assoc($result)) {
             if ($row['isAlloted'] == 0 || $row['course_type'] == 'LAB')
                 continue;
@@ -83,7 +77,6 @@ function load_theory($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove_theory($id, $conn)
 {
     $sql = "UPDATE subjects  SET isAlloted = '0' , allotedto = '',allotedto2 = '',allotedto3 = '' WHERE subject_code = '$id' ";
@@ -133,7 +126,6 @@ function load_practical($conn)
                 <td>{$trow3['name']}</td>
                <td>
                <button Class='delete-btn btn btn-sm btn-danger' data-cid='{$row["subject_code"]}'>Delete</button>
-
                 </tr>\n";
         }
         mysqli_close($conn);
@@ -142,7 +134,6 @@ function load_practical($conn)
         echo "<h2>No Record Found.</h2>";
     }
 }
-
 function remove_practical($id, $conn)
 {
     $sql = "UPDATE subjects  SET isAlloted = '0' , allotedto = '',allotedto2 = '',allotedto3 = '' WHERE subject_code = '$id' ";

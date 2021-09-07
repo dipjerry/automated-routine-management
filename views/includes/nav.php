@@ -32,9 +32,39 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="index.php">LOGOUT <i class="fa fa-sign-out"></i></a></li>
-                <li><a href="index.php">Reset Allotment</a></li>
+                <li><a id="reset">Reset Allotment</a></li>
             </ul>
 
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(document).on("click", "#reset", function() {
+            if (confirm("Do you really want to reset the records ?")) {
+                var element = this;
+                $.ajax({
+                    url: "./class/reset.php",
+                    type: "POST",
+                    data: {
+                        method: 'reset'
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            $(element).closest("tr").fadeOut();
+                            $("#error-message").html("Can't Delete Record.").slideDown();
+                            $("#success-message").slideUp();
+                            $("#success-message").html("Can't Delete Record.").slideDown();
+                            $("#error-message").slideUp();
+                            alert("Reset succesfull");
+                        } else {
+                            alert("Reset failed");
+
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
